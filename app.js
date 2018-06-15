@@ -5,6 +5,9 @@ const htmlTemplate = require("html-template-tag")
 const main = require('./views/main')
 const app = express();
 const {db} = require('./models')
+// const Page = require('./models')
+// const User = require('./models')
+
 
 
 app.use(morgan('dev'))
@@ -22,11 +25,12 @@ const PORT = 3000;
 
 const init = async () => {
   try{
+  await db.sync({force: true})
   await db.User.sync();
   await db.Page.sync();
 
   } catch(err){
-    console.log(err)
+    console.log(err, 'test')
   }
 
 app.listen(PORT, () =>{
@@ -37,7 +41,7 @@ app.listen(PORT, () =>{
 
 init();
 
-db.authenticate().
-then(() => {
-  console.log('connected to the database');
-})
+// db.authenticate().
+// then(() => {
+//   console.log('connected to the database');
+// })
