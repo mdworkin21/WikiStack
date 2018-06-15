@@ -1,6 +1,13 @@
 const Sequelize = require('sequelize')
 const db = new Sequelize('postgres://localhost:5432/wikistack');
+const router = require('../routes/wiki')
+const bodyParse = require('body-parser')
 
+router.use(bodyParse())
+
+function transformSlug(title){
+ return title.replace(/\s+/g, '_').replace(/\W/g, '');
+ }
 
 const Page = db.define('page', {
   title: {
@@ -21,6 +28,10 @@ const Page = db.define('page', {
   }
 })
 
+
+Page.beforeCreate((userInstance, optionsObject) =>{
+  userInstance.slug = hash(userInstance.transformSlug(page))
+})
 
 const User = db.define('user', {
   name: {

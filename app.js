@@ -5,6 +5,9 @@ const htmlTemplate = require("html-template-tag")
 const main = require('./views/main')
 const app = express();
 const {db} = require('./models')
+const wikiRouter = require('./routes/wiki')
+const userRouter = require('./routes/user')
+
 // const Page = require('./models')
 // const User = require('./models')
 
@@ -12,12 +15,15 @@ const {db} = require('./models')
 
 app.use(morgan('dev'))
 app.use(express.static(__dirname + "/public"))
+app.use('/wiki', wikiRouter)
+app.use('/user', userRouter)
 
 
 
 app.get('/', (req, res, next) =>{
   res.send(main())
 })
+
 
 
 
